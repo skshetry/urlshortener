@@ -3,6 +3,8 @@ from django.test import TestCase
 
 from django.contrib.auth.models import User
 
+from unittest import mock
+
 from .models import Urls
 from .utils import encode_base62, decode_base62
 
@@ -54,6 +56,9 @@ class UrlsTest(TestCase):
             long_url='https://www.example.com/example1/example2',
             created_by=self.user
             )
+
+    def test_gethash_is_called(self):
+        self.assertEqual(self.url.get_hash(), '1')
 
     def test_str(self):
         self.assertEqual(self.url.__str__(), str(self.url.pk) + ' | ' + self.user.username)

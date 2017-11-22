@@ -1,6 +1,9 @@
 """Models for urlshortener."""
 from django.db import models
+
 from django.contrib.auth.models import User
+
+from .utils import encode_base62
 
 
 class Urls(models.Model):
@@ -15,6 +18,10 @@ class Urls(models.Model):
         related_name='user_links',
         null=True, blank=True
         )
+
+    def get_hash(self) -> int:
+        """Get hash from the `self.pk`."""
+        return encode_base62(id_dec=self.pk)
 
     def __str__(self) -> str:
         """Return string representation. Mostly for Django Admin and Python Shell."""
