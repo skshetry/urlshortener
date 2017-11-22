@@ -3,6 +3,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from analytics.models import Analytics
+
 from .utils import encode_base62
 
 
@@ -18,6 +20,15 @@ class Urls(models.Model):
         related_name='user_links',
         null=True, blank=True
         )
+    analytics = models.OneToOneField(
+        to=Analytics, on_delete=models.CASCADE,
+        primary_key=True,
+        )
+
+    def save(self, *args, **kwargs):
+        """Create analytics beforehand saving. """
+        self.analytics = Analytics.objects.create()
+        super(Urls, self).save(*args, **kwargs)
 
     def get_hash(self) -> int:
         """Get hash from the `self.pk`."""

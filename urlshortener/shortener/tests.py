@@ -3,7 +3,7 @@ from django.test import TestCase
 
 from django.contrib.auth.models import User
 
-from unittest import mock
+from analytics.models import Analytics
 
 from .models import Urls
 from .utils import encode_base62, decode_base62
@@ -50,18 +50,26 @@ class HelperTest(TestCase):
 
 
 class UrlsTest(TestCase):
+    """Url model testcase."""
+
     def setUp(self):
+        """Instantiate `User` instance and `Analytics` instance for the test."""
+        self.analytics = Analytics.objects.create()
         self.user = User.objects.create_user('foo', 'email@example.com', 'bar')
         self.url = Urls.objects.create(
             long_url='https://www.example.com/example1/example2',
-            created_by=self.user
+            created_by=self.user,
+            analytics=self.analytics,
             )
 
     def test_gethash_is_called(self):
-        self.assertEqual(self.url.get_hash(), '1')
+        """Test only to check if it's using the `save()` I defined or not."""
+        self.assertEqual(self.url.get_hash(), encode_base62(self.url.pk))
 
     def test_str(self):
+        """Test `__str__()` returns expected string."""
         self.assertEqual(self.url.__str__(), str(self.url.pk) + ' | ' + self.user.username)
 
     def test_verbose_name(self):
+        """Test if `Urls` :model: contains `verbose_name_plural` on `Meta` :subclass:."""
         self.assertEqual(self.url._meta.verbose_name_plural, 'Urls')
