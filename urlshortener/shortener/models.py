@@ -26,3 +26,6 @@ class Urls(models.Model):
     def __str__(self) -> str:
         """Return string representation. Mostly for Django Admin and Python Shell."""
         return str(self.pk) + ' | ' + self.created_by.get_username()
+
+    class Meta:
+        verbose_name_plural = 'Urls'

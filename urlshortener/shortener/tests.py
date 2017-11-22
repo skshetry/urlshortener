@@ -62,3 +62,6 @@ class UrlsTest(TestCase):
 
     def test_str(self):
         self.assertEqual(self.url.__str__(), str(self.url.pk) + ' | ' + self.user.username)
+
+    def test_verbose_name(self):
+        self.assertEqual(self.url._meta.verbose_name_plural, 'Urls')
