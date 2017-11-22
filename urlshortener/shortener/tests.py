@@ -1,6 +1,9 @@
 """Tests for `urlshortener`."""
 from django.test import TestCase
 
+from django.contrib.auth.models import User
+
+from .models import Urls
 from .utils import encode_base62, decode_base62
 
 
@@ -42,3 +45,15 @@ class HelperTest(TestCase):
     def test_decode_on_sends_none_on_empty_string(self):
         """Ensure `decode_base62` sends `None` when empty string is sent.."""
         self.assertFalse(decode_base62(''))
+
+
+class UrlsTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user('foo', 'email@example.com', 'bar')
+        self.url = Urls.objects.create(
+            long_url='https://www.example.com/example1/example2',
+            created_by=self.user
+            )
+
+    def test_str(self):
+        self.assertEqual(self.url.__str__(), str(self.url.pk) + ' | ' + self.user.username)
