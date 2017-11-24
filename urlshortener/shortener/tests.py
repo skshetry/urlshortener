@@ -7,6 +7,7 @@ from analytics.models import Analytics
 
 from .models import Urls
 from .utils import encode_base62, decode_base62
+from .views import url_expand
 
 
 class HelperTest(TestCase):
@@ -73,3 +74,18 @@ class UrlsTest(TestCase):
     def test_verbose_name(self):
         """Test if `Urls` :model: contains `verbose_name_plural` on `Meta` :subclass:."""
         self.assertEqual(self.url._meta.verbose_name_plural, 'Urls')
+
+
+class URLExpansionTest(TestCase):
+    def setUp(self):
+        self.analytics = Analytics.objects.create()
+        self.user = User.objects.create_user('foo', 'email@example.com', 'bar')
+        self.url = Urls.objects.create(
+            long_url='http://localhost',
+            created_by=self.user,
+            analytics=self.analytics,
+            )
+
+    def test_redirects_to_original_url_if_exists(self):
+        response = self.client.get(self.url.get_hash(), follow=True)
+        self.assertRedirects(response, self.url.long_url, status_code=302, target_status_code=200)
