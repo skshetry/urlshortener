@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rar87$ds+)8c#tqi)sm7*zkcd(w2o4e4fb3jq^nid2h(o!053e'
+SECRET_KEY = '3)-6$vzsb9!3-r_#36e1kr7odlf2a&6^^o+h_l=8qmp!8!3igg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'testserver', '192.168.1.34', 'localhost', '0.0.0.0']
 
 
 # Application definition
@@ -76,10 +76,18 @@ WSGI_APPLICATION = 'urlshortener.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': {  #moving to postgres
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'urlshortener',
+        'USER': 'skshetry',
+        'PASSWORD': 'saugat',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    'nodefault': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
 }
 
 
@@ -120,3 +128,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
+
+LOGIN_REDIRECT_URL = 'home'
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

@@ -39,6 +39,9 @@
                 margin-left: auto;
                 margin-right: auto;
             }
+            ##logout{
+                float: right;
+            }
         </style>
     </head>
 
@@ -53,7 +56,10 @@
                 {% else %}
                     Please <a href="{% url 'login' %}">Login </a>
                 {% endif %}
-            
+
+                <div style="float:right">
+                    <a href="{% url 'logout'%}">Logout</a>
+                </div>
             </h1>
         </nav>
 
