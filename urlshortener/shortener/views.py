@@ -29,6 +29,20 @@ class UrlsListAndFormView(ModelFormMixin, ListView):
             self.paginator = self.get_paginator(self.queryset, 10)
         return super(UrlsListAndFormView, self).get(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        """Handle post request for the form.
+
+        And add user to the model if user is authenticated
+        after validating the form using the `UrlsForm` :ModelForm:.
+        """
+        self.form = self.get_form(self.form_class)
+        if self.form.is_valid():
+            self.object = self.form.save(commit=False) #Don't save now. Add user if authenticated.
+            if request.user.is_authenticated:
+                self.object.created_by = request.user
+                self.object.save()
+        return self.get(request, *args, **kwargs) #resend them to listview.
+
     def get_context_data(self, *args, **kwargs):
         """Add `form`, an instance of `UrlsForm` :ModelForm: to the context response."""
         context = super(UrlsListAndFormView, self).get_context_data(*args, **kwargs)
