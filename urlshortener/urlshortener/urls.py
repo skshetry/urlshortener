@@ -22,7 +22,7 @@ import shortener
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^login$', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    url(r'^logout$', auth_views.logout, name='logout'),
+    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^', include('shortener.urls')),
 ]
