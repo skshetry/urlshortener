@@ -14,5 +14,6 @@
     "python.unitTest.nosetestsEnabled": false,
     "workbench.colorTheme": "Spacemacs - dark",
     "python.linting.mypyEnabled": false,
-    "python.venvPath": "$(workspaceroot)/.venv",
+    "python.venvPath": "$(workspaceroot)/venv",
+    "python.pythonPath": "${workspaceRoot}/venv/bin/python3",
 }

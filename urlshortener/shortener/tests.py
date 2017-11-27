@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 from analytics.models import Analytics
 
-from .models import Urls
-from .utils import encode_base62, decode_base62
-from .views import url_expand
+from shortener.models import Urls
+from shortener.utils import encode_base62, decode_base62
+from shortener.views import url_expand
 
 
 class HelperTest(TestCase):

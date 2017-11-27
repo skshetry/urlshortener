@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from analytics.models import Analytics
 
-from .utils import encode_base62
+from shortener.utils import encode_base62
 
 
 class Urls(models.Model):

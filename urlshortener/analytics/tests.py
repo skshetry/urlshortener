@@ -1,7 +1,7 @@
 """Tests for `analytics` package."""
 from django.test import TestCase
 
-from .models import Analytics
+from analytics.models import Analytics
 
 
 class AnalyticsTestCase(TestCase):
