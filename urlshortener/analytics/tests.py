@@ -11,10 +11,6 @@ class AnalyticsTestCase(TestCase):
         """Create a instance of `Analytics` before testing."""
         self.analytics = Analytics.objects.create()
 
-    def test_str(self):
-        """Test the models if it returns expected string."""
-        self.assertEqual(self.analytics.__str__(), '1')
-
     def test_add_one(self):
         """Test `add_one_view()` :method:."""
         self.analytics.add_one_view()
