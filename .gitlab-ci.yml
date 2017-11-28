@@ -47,3 +47,13 @@ test:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
   script:
   - python manage.py test --settings config.settings.test
+
+staging:
+  type: deploy
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=djangotestapp01 --api-key=$HEROKU_STAGING_API_KEY
+  only:
+  - master
