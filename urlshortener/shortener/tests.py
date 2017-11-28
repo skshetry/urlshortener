@@ -77,15 +77,24 @@ class UrlsTest(TestCase):
 
 
 class URLExpansionTest(TestCase):
+    """Tests for the redirection."""
+
     def setUp(self):
+        """Instantiate a url for testing redirection."""
         self.analytics = Analytics.objects.create()
         self.user = User.objects.create_user('foo', 'email@example.com', 'bar')
         self.url = Urls.objects.create(
-            long_url='http://localhost',
+            long_url='https://www.google.com.np/',
             created_by=self.user,
             analytics=self.analytics,
             )
 
     def test_redirects_to_original_url_if_exists(self):
-        response = self.client.get(self.url.get_hash(), follow=True)
-        self.assertRedirects(response, self.url.long_url, status_code=302, target_status_code=200)
+        """Check if the url is being redirected."""
+        response = self.client.get('/' + self.url.get_hash())
+        self.assertRedirects(
+            response,
+            self.url.long_url,
+            status_code=302,
+            fetch_redirect_response=False,
+            )
